@@ -26,8 +26,7 @@ type Field = keyof AgentInput;
 
 function validate(input: AgentInput): Record<Field, string> {
   let source = "";
-  if (!input.source.trim()) source = "Add the original source URL.";
-  else {
+  if (input.source.trim()) {
     try {
       const url = new URL(input.source.trim());
       if (
@@ -69,7 +68,9 @@ export default function App() {
   const helpRef = useRef<HTMLDialogElement>(null);
   const errors = validate(input);
   const valid = Object.values(errors).every((value) => !value);
-  const completeCount = Object.values(errors).filter((value) => !value).length;
+  const completeCount = [errors.role, errors.report].filter(
+    (value) => !value,
+  ).length;
 
   useEffect(() => {
     if (helpOpen) helpRef.current?.showModal();
@@ -212,7 +213,7 @@ export default function App() {
             </span>
             <div>
               <strong>Bring the evidence</strong>
-              <span>Original source + Ezio report</span>
+              <span>Ezio report + optional source</span>
             </div>
           </div>
           <ArrowRight size={18} className="workflow-arrow" />
@@ -247,7 +248,7 @@ export default function App() {
                 <span className="step-number">01</span>
                 <h2 id="input-heading">Set up your assessment</h2>
               </div>
-              <span className="input-count">{completeCount}/3 ready</span>
+              <span className="input-count">{completeCount}/2 ready</span>
             </div>
             <form onSubmit={submit} noValidate>
               <div className="form-intro">
@@ -266,9 +267,7 @@ export default function App() {
                 <div className="form-field">
                   <label htmlFor="source">
                     Original Source
-                    <span className="required-dot" aria-hidden="true">
-                      *
-                    </span>
+                    <span className="optional-label">Optional</span>
                   </label>
                   <div className="input-wrap">
                     <Link2 size={17} aria-hidden="true" />
@@ -288,12 +287,11 @@ export default function App() {
                       }
                       aria-invalid={!!(touched.source && errors.source)}
                       aria-describedby={`source-help${touched.source && errors.source ? " source-error" : ""}`}
-                      required
                     />
                   </div>
                   <p className="field-help" id="source-help">
-                    Paste the authoritative source the original AI answer was
-                    based on.
+                    If available, paste the authoritative source the original AI
+                    answer was based on.
                   </p>
                   {touched.source && errors.source && (
                     <p className="field-error" id="source-error">
@@ -397,7 +395,9 @@ export default function App() {
               </button>
               {!valid && (
                 <p className="completion-hint">
-                  Complete all three fields to run your assessment.
+                  {errors.source
+                    ? "Enter a valid source URL or leave it blank."
+                    : "Add your role and trust report to run your assessment."}
                 </p>
               )}
               <div className="form-notice" role="status">
@@ -459,8 +459,8 @@ export default function App() {
         <h2 id="help-heading">Evidence to action, in three steps.</h2>
         <ol>
           <li>
-            <strong>Bring your evidence.</strong> Paste the original source URL
-            and exported Ezio report.
+            <strong>Bring your evidence.</strong> Paste the exported Ezio report
+            and, if available, the original source URL.
           </li>
           <li>
             <strong>Set the decision.</strong> Tell the agent whose professional

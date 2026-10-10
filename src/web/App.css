@@ -328,6 +328,12 @@ fieldset:disabled {
   color: #737abd;
   font-weight: 450;
 }
+.optional-label {
+  color: #657086;
+  font-size: 10px;
+  font-weight: 400;
+  margin-left: 3px;
+}
 .input-wrap {
   position: relative;
 }

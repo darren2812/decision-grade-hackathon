@@ -94,9 +94,25 @@ test("mobile layout fits the viewport and can complete an assessment", async ({
     ),
   ).toBe(true);
   await page.getByRole("button", { name: "Load demo report" }).click();
+  await page.getByLabel("Original Source").fill("");
+  await expect(page.getByLabel("Original Source")).not.toHaveAttribute(
+    "required",
+    "",
+  );
+  await expect(
+    page.getByRole("button", { name: "Run Trust Agent" }),
+  ).toBeEnabled();
+  await page.getByLabel("Original Source").fill("invalid-url");
+  await expect(
+    page.getByRole("button", { name: "Run Trust Agent" }),
+  ).toBeDisabled();
+  await page.getByLabel("Original Source").fill("");
   await page.getByRole("button", { name: "Run Trust Agent" }).click();
   await expect(
     page.getByText("REWRITE WITH CITATIONS", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Original source · Not provided" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Request a sourced rewrite" }).click();
   await expect(

@@ -13,6 +13,8 @@ npm run dev
 
 Open the local URL printed by Vite. Click **Load demo report**, then **Run Trust Agent** to try the EV-market example.
 
+Only **Agent Role** and **Ezio Trust Report** are required. **Original Source** is optional; if supplied, it must be a valid HTTP(S) URL. The agent receives an empty `source` string when omitted and clearly notes the missing reference in its results.
+
 ```sh
 npm run build     # TypeScript check and production build
 npm run preview   # Serve the production build

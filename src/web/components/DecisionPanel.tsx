@@ -46,7 +46,7 @@ function EvidenceCard({ evidence }: { evidence: Evidence }) {
       <div className="min-w-0">
         <h4>{evidence.title}</h4>
         <p>{evidence.excerpt}</p>
-        {evidence.kind === "original" && (
+        {evidence.kind === "original" && !evidence.concern && (
           <span className="source-note">
             Reference recorded · content not independently checked
           </span>
@@ -145,7 +145,7 @@ export default function DecisionPanel({
           <p role={loading ? "status" : undefined}>
             {loading
               ? "Reviewing claims, findings, and source quality…"
-              : "Give your agent the source, the context, and the report. Get a recommendation you can trace back to the evidence."}
+              : "Give your agent the context and trust report. Add the original source if available. Get a recommendation you can trace back to the evidence."}
           </p>
           {!loading && (
             <div className="empty-features">

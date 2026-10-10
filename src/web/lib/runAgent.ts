@@ -1,4 +1,5 @@
 export interface AgentInput {
+  // An empty string means the optional original source was not supplied.
   source: string;
   role: string;
   report: string;
@@ -183,11 +184,16 @@ export async function runAgent(input: AgentInput): Promise<AgentResult> {
       kind: "source",
       concern: true,
     });
+  const providedSource = input.source.trim();
   evidence.push({
-    title: "Original source · Provided reference",
-    excerpt: input.source,
+    title: providedSource
+      ? "Original source · Provided reference"
+      : "Original source · Not provided",
+    excerpt:
+      providedSource ||
+      "No original source URL was provided. This assessment uses the pasted trust report only.",
     kind: "original",
-    concern: false,
+    concern: !providedSource,
   });
 
   const uncertainties = [
@@ -201,7 +207,9 @@ export async function runAgent(input: AgentInput): Promise<AgentResult> {
           "The cause and extent of the flagged issue require review of the underlying primary evidence.",
         ]
       : []),
-    "The original URL and cited sources have not been opened or independently checked in this demo.",
+    providedSource
+      ? "The original URL and cited sources have not been opened or independently checked in this demo."
+      : "No original source URL was supplied. The cited sources in the pasted report have not been independently checked.",
     "The report cannot establish whether the answer includes every caveat relevant to your professional decision.",
   ];
 
