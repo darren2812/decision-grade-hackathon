@@ -184,6 +184,7 @@
   margin-bottom: 28px;
 }
 .workflow-step {
+  min-width: 0;
   display: flex;
   gap: 12px;
   align-items: center;
@@ -226,6 +227,7 @@
   scroll-margin-top: 20px;
 }
 .panel {
+  min-width: 0;
   background: #fff;
   border: 1px solid #e1e3e9;
   border-radius: 9px;
@@ -1252,7 +1254,7 @@ fieldset:disabled {
   }
   .workflow-step strong {
     font-size: 8px;
-    white-space: nowrap;
+    white-space: normal;
   }
   .workflow-arrow {
     margin-top: -17px;
