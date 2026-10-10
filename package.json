@@ -1,23 +1,36 @@
 {
-  "name": "my-react-app",
+  "name": "trustgate",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test src/web/lib/runAgent.test.ts",
+    "test:ui": "playwright test",
+    "format": "prettier --write src/web index.html vite.config.js tsconfig.json"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "lucide-react": "^1.55.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2",
     "vite": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=22.16.0"
   }
 }
